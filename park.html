@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Park</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="park.css">
+    <script src="park.js" defer></script>
+</head>
+<body>
+    <button class="exit-button" onclick="exitPage()">Exit</button>
+    <button class="back-button" onclick="back()">Back</button> 
+    <div class="camera">
+        <canvas id="image" width="800" height="600"></canvas>
+    </div>
+
+	<div class="sound-box">
+		<div class="buttons">
+			<button onclick="playSound('openingSound')">Sound ON/OFF</button>
+				<audio id="openingSound" src="prof.mp3"></audio>
+		</div>
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,80 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+    background-image: url('exitScreen.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    margin: 0;
+}
+
+.leavingScreen {
+	color: white;
+    background-color: rgba(255, 255, 255, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    border-radius: 50px;
+    width: 80%;
+    max-width: 800px;
+}
+
+.US {
+    height: 300px; 
+    width: auto;
+    margin-bottom: 20px;
+}
+
+.textButtonContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 600px;
+}
+
+.textInstructions {
+    width: 100%;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    background-color: rgb(153, 102, 51);
+    text-align: left;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.title {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    font-family: 'Pokemon Solid';
+    font-size: 40px;
+    font-weight: bold;
+    margin: 0 0 20px 0;
+    border-radius: 5px;
+    background-color: rgb(153, 102, 51);
+    padding: 10px;
+}
+
+.buttonContainer {
+    margin-top: 20px;
+}
+
+button {
+    background-color: rgb(153, 102, 51);
+    color: white;
+    padding: 10px 20px;
+    margin: 0 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 15px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: rgb(191, 128, 64);
+}

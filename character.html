@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Valentine Game!</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="character.css">
+    <script src="character.js"></script>
+</head>
+<body onload="initializeTeam()">
+    <div id="welcomeScreen" class="welcomeScreen">
+        <div class="textButtonContainer">
+            <h1 class="title">Choose Your Character!</h1>
+			
+			<div class="character-selector">
+    <div id="characterDisplay" class="images"></div>
+</div>
+            
+            <div class="arrow-container">
+                <button onclick="previousCharacter()" class="arrow-button">◀</button>
+                <button onclick="nextCharacter()" class="arrow-button">▶</button>
+            </div>
+            
+            <div class="buttonContainer">
+                <button onclick="back()">Back</button>
+                <button onclick="next()">Select & Continue</button>
+                <audio id="openingSound" src="BattleSound.mp3"></audio>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

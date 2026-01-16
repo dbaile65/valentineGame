@@ -1,0 +1,120 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; 
+    text-align: center;
+    background-image: url('homeScreen.png');
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+	background-position: center; 
+}
+
+.welcomeScreen {
+    background-color: rgba(255, 255, 255, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px; 
+    padding: 10px;
+    margin: 100px;
+    border-radius: 50px;
+    width: 100%;
+}
+
+.images {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	padding-right: 30px;
+	padding-bottom: 20px;
+	
+}
+
+.US {
+    height: 400px; 
+    width: auto;
+    background-color: transparent;
+	transform: scaleX(-1);
+	margin-right: 20px;
+
+}
+
+.description_image {
+	display: flex;
+	flex-direction: column;
+	background-color: rgba(144, 238, 144, 0.4);
+	border-radius: 10px;
+	
+}
+
+
+
+.textButtonContainer {
+	color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    max-width: 400px; 
+}
+
+.textInstructions {
+	color: white;
+	font-size: 17px;
+	height: 540px;
+	width: 610px;
+	text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+	background-color: rgb(153, 102, 51);
+	display: flex;
+	flex-direction: column;
+	text-align: left;
+	padding-top: 5px;
+	padding-bottom: 20px;
+	padding-left: 20px;
+	padding-right: 20px;
+	border-radius: 5px;
+	margin-left: 40px;
+}
+
+.textInstructions h3 {
+    font-size: 17px;
+}
+
+.title {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    font-family: 'Pokemon Solid';
+    font-size: 40px; 
+    font-weight: bold;
+    margin: 0 0 20px 0;
+    border-radius: 5px;
+    background-color: rgb(153, 102, 51);
+    padding: 10px;
+    width: 100%; 
+}
+
+.buttonContainer {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    width: 100%; 
+}
+
+button {
+    background-color: rgb(153, 102, 51);
+    color: white;
+    padding: 10px 20px;
+    margin: 0; 
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 15px; 
+    transition: background-color 0.3s ease;
+	
+}
+
+button:hover {
+    background-color: rgb(191, 128, 64);
+
+}

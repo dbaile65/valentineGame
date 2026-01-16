@@ -1,0 +1,102 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; 
+    text-align: center;
+    background-color: rgb(153, 102, 51);
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+.exit-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 10px 20px;
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 10;
+}
+.back-button {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 10px 20px;
+    background-color:brown; 
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 10;
+}
+.exit-button:hover {
+    background-color: darkred;
+}
+
+#enemy {
+    position: absolute;
+    width: 45px;
+    height: 55px;
+    background-image: url('villager3.png'); 
+    background-repeat: no-repeat;
+    background-position: 0 0;
+}
+
+
+.pixel-art {
+   image-rendering: pixelated;
+}
+
+.camera {
+    width: 800px; 
+    height: 600px; 
+    overflow: hidden;
+    position: relative;
+    background-color: lightblue;
+}
+
+.map {
+    image-rendering: pixelated;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.buttonContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; 
+}
+
+.buttonContainer button {
+    padding: 10px 20px;
+    font-size: 16px;
+}
+
+.sound-box {
+    position: absolute;
+    top: 625px;
+    left: 10px;
+    background-color: rgba(0, 0, 0, 1);
+    padding: 1px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.sound-box button {
+    background-color: rgb(4, 45, 4);
+    color: white;
+    padding: 10px 20px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 15px;
+}

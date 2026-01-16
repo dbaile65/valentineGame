@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Exit Screen</title>
+    <link rel="stylesheet" href="exit.css">
+    <script src="Intro.js" async></script>
+</head>
+<body>
+    <div class="leavingScreen">
+        <img src="E&D.png" class="US">
+        <div class="textButtonContainer">
+            <div class="textInstructions">
+                <h1 class="title">YEA!! Thank you for playing!</h1>
+                <p>HOPE TO SEE YOU SOON !</p>
+            </div>
+            <div class="buttonContainer">
+                <button onclick="back()">Back</button>
+				<button id="terminateGame()">Start New Game</button>
+            </div>
+        </div>
+    </div>
+	 <script>
+        function back() {
+            window.location.href = "http://localhost/valentineGame/field.html";
+        }
+    </script>
+</body>
+</html>

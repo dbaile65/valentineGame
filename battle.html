@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pokemon Battle</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="battle.css">
+    <script src="proj3.js" async></script>
+	<script src="teams.js" async></script>
+</head>
+<body onload="initializeBattle()">
+<div id="battleField">
+	
+	<div class="opposing-team">
+	
+	</div>
+	
+	<div class="active-pokemon">
+        <h2>Your Pokemon</h2>
+			<div id="userActivePokemon">
+			</div>
+    </div>
+	<div class="opponent">
+        <h2>Opponent</h2>
+        <div id="opponentPokemon" class="opponent-pokemon"></div>
+        </div>
+    </div>
+    
+</div>
+	<div class="battle-box">
+		<h1>Get Ready For Battle</h1>
+		<div class="buttons">
+			<button onclick="Attack()">Attack Move</button>
+			<button onclick="Special_Attack()">Special Attack</button>
+			<button onclick="compareEvolution()">Check Evolution</button>
+			<button onclick="switchPokemon()">Switch Pokemon</button>
+			<button onclick="Run()">Run</button>
+		</div>
+		<div id="battle-status"></div>
+	</div>
+	<div id="evolution-comparison"></div>
+	
+	<div class="sound-box">
+		<div class="buttons">
+			<button onclick="playSound('battleSound')">Sound ON/OFF</button>
+				<audio id="battleSound" src="BattleSound.mp3"></audio>
+		</div>
+	</div>
+
+	
+	</div>
+    <div id="run" class="runtxt">
+        <p>You ran away safely.</p>
+    </div>
+	
+	<div id="evolve" class="evolvetxt">
+        <p>Your Pokemon will evolve after the battle!</p>
+    </div>
+	
+	<div id="youWon" class="youWonTxt">
+		<p>You Won! The Battle has Finished!</p>
+	</div>
+	
+	<div id="cpuWon" class="cpuWonTxt">
+		<p>Your Opponent Won! The Battle has Finished!</p>
+	</div>
+		
+</body>
+</html>

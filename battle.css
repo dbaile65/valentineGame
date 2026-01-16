@@ -1,0 +1,233 @@
+body{
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+	display: flex;
+	justify-content: center;
+    align-items: center;
+    text-align: center;
+	
+    background-image: url('pokemon-stadium-background.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+
+}
+
+.battle-box {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background-color: rgba(0, 0, 0, 1);
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.sound-box {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background-color: rgba(0, 0, 0, 1);
+    padding: 1px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+ .battle-box h1 {
+    margin: 0 0 10px 0px;
+    font-size: 20px;
+	color: #c0c0c0;
+}
+
+ .battle-box .buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.battle-box button {
+    background-color: rgb(4, 45, 4);
+    color: white;
+    padding: 10px 20px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.sound-box button {
+    background-color: rgb(4, 45, 4);
+    color: white;
+    padding: 10px 20px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+#battleField {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.active-pokemon {
+    order: 1;
+}
+
+.opponent {
+    order: 2;
+}
+.active-pokemon img{
+	position: absolute;
+   
+    left: 20%;
+    bottom: 30%;
+    max-width: 200px;
+    height: auto;
+
+}
+.opponent img{
+	position: absolute;
+    right: 20%;
+    bottom: 30%;
+    max-width: 200px;
+    height: auto;
+}
+#userTeam {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 5px;
+}
+
+
+.pokemon.active {
+    border: 4px solid gold;
+}
+
+.switch-menu {
+    position: fixed;
+	color: white;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+	background-color: rgba(0, 0, 0, 1);
+    padding: 20px;
+	border: none;
+	border-radius: 5px;
+    z-index: 1000;
+}
+
+.switch-menu button {
+	background-color: rgb(4, 45, 4);
+	color: white;
+	padding: 10px 20px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 15px;
+    display: block;
+    margin: 10px 0;
+}
+
+.runtxt{
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.9);
+    padding: 20px;
+    border-radius: 10px;
+    color: white;
+    text-align: center;
+ }
+ 
+ .evolvetxt{
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.9);
+    padding: 20px;
+    border-radius: 10px;
+    color: white;
+    text-align: center;
+ }
+ 
+  .youWonTxt{
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.9);
+    padding: 20px;
+    border-radius: 10px;
+    color: white;
+    text-align: center;
+ }
+ 
+  .cpuWonTxt{
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.9);
+    padding: 20px;
+    border-radius: 10px;
+    color: white;
+    text-align: center;
+ }
+ 
+ #battle-status {
+    color: white;
+    margin-top: 10px;
+    font-size: 16px;
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+.fade-out {
+    animation: fadeOut 2s forwards;
+}
+
+@keyframes shake {
+    0% { transform: translate(1px, 1px) rotate(0deg); }
+    10% { transform: translate(-1px, -2px) rotate(-1deg); }
+    20% { transform: translate(-3px, 0px) rotate(1deg); }
+    30% { transform: translate(3px, 2px) rotate(0deg); }
+    40% { transform: translate(1px, -1px) rotate(1deg); }
+    50% { transform: translate(-1px, 2px) rotate(-1deg); }
+    60% { transform: translate(-3px, 1px) rotate(0deg); }
+    70% { transform: translate(3px, 1px) rotate(-1deg); }
+    80% { transform: translate(-1px, -1px) rotate(1deg); }
+    90% { transform: translate(1px, 2px) rotate(0deg); }
+    100% { transform: translate(1px, -2px) rotate(-1deg); }
+}
+
+.shake {
+    animation: shake 0.5s;
+    animation-iteration-count: 1;
+}
