@@ -1,6 +1,4 @@
 let isSoundPlaying = false;
-const SPRITE_PADDING = 9; // transparent gap between frames
-const SPRITE_OFFSET = 0; // set to >0 only if outer border exists
 
 const canvas = document.getElementById('image');
 const ctx = canvas.getContext('2d');
@@ -31,6 +29,25 @@ try {
     console.error("Error loading character:", error);
     spriteSheet.src = 'gameCharacters/girl2.png';
 }
+
+let SPRITE_PADDING = 0;
+let SPRITE_OFFSET = 0;
+
+// Function to update padding based on the sprite sheet
+function updateSpritePadding() {
+    if (spriteSheet.src.includes('girl1.png')){
+        SPRITE_PADDING = 9;
+        SPRITE_OFFSET = 0;
+    } else{
+        SPRITE_PADDING = 4;
+        SPRITE_OFFSET = 0;
+    }
+}
+
+// Update padding when sprite loads
+spriteSheet.onload = updateSpritePadding;
+// Also update immediately in case it's cached
+updateSpritePadding();
 
 const frameHeight = 64; 
 const frameWidth = 64;
@@ -71,7 +88,7 @@ const camera = {
 };
 
 // step size for character movement
-const stepSize = 2;
+const stepSize = 1;
 
 
 const nurseX = 180;  

@@ -3,9 +3,20 @@ const canvas = document.getElementById('image');
 const ctx = canvas.getContext('2d');
 const spriteSheet = new Image();
 const mapImage = new Image();
-mapImage.src = 'testPark.png';
+mapImage.src = 'newPark.png';
 const enemyImage = new Image();
-enemyImage.src = 'villagers/villager1.png';
+enemyImage.src = 'villagers/villager4.png';
+
+
+//helper function to find enter boxes
+canvas.addEventListener("click", (e) => {
+    const rect = canvas.getBoundingClientRect();
+
+    const mouseX = (e.clientX - rect.left) / mapScaleFactor + camera.x;
+    const mouseY = (e.clientY - rect.top) / mapScaleFactor + camera.y;
+
+    console.log(`X: ${Math.floor(mouseX)}, Y: ${Math.floor(mouseY)}`);
+});
 
 // Load the selected character from localStorage
 let selectedCharacter = null;
@@ -39,7 +50,10 @@ function updateSpritePadding() {
 }
 
 // Update padding when sprite loads
-spriteSheet.onload = updateSpritePadding;
+spriteSheet.onload = () => {
+    updateSpritePadding();
+    checkAllImagesLoaded();
+};
 // Also update immediately in case it's cached
 updateSpritePadding();
 
@@ -47,9 +61,9 @@ const frameHeight = 64;
 const frameWidth = 64;
 const framesPerDirection = 4;
 // scale factors for map and character
-const mapScaleFactor = 2.5;    
-const characterScaleFactor = 1; 
-const enemyScaleFactor = 1; 
+const mapScaleFactor = 1;    
+const characterScaleFactor = 0.9; 
+const enemyScaleFactor = 0.9; 
 
 // directions to desired row in the sprite sheet
 const directions = {
@@ -68,8 +82,8 @@ let isMoving = false;
 const frameRate = 5; 
 let frameCounter = 0;
 // map dimensions
-const mapWidth = 512;
-const mapHeight = 384;
+const mapWidth = 1200;
+const mapHeight = 800;
 // camera view dimensions 
 const cameraWidth = 800 / mapScaleFactor;
 const cameraHeight = 600 / mapScaleFactor;
@@ -82,7 +96,86 @@ const camera = {
 };
 
 // step size for character movement
-const stepSize = 1;
+const stepSize = 3;
+
+// collision boundaries (left, top, right, bottom) for each boundary
+const collisionBoxes = [
+    {left: 130, top: 100, right: 150, bottom: 110},                     // barrier 1
+    {left: 250, top: 100, right: 300, bottom: 110},                     // barrier 2
+    {left: 250, top: 190, right: 320, bottom: 210},                     // barrier 3
+    {left: 130, top: 220, right: 150, bottom: 240},                     // barrier 4
+    {left: 0, top: 0, right: 25, bottom: mapHeight},                    // left boundary
+    {left: mapWidth-110, top: 0, right: mapWidth, bottom: mapHeight},   // right boundary
+    {left: 0, top: 0, right: mapWidth, bottom: 25},                     // top boundary
+    {left: 0, top: mapHeight-25, right: mapWidth, bottom: mapHeight},   // bottom boundary
+];
+
+// Define enter boxes for area transitions
+const enterBoxes = [
+    {left: 197, top: 30, right: 207, bottom: 35, redirect: 'field.html'}  // exit park back to field
+];
+
+// check if the next position collides with any of the defined boundaries
+function checkCollision(newX, newY) {
+    for (let box of collisionBoxes) {
+        if (newX < box.right && newX + frameWidth > box.left &&
+            newY < box.bottom && newY + frameHeight > box.top) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function checkEnter(newX, newY) {
+    for (let box of enterBoxes) {
+        if (newX < box.right && newX + frameWidth > box.left &&
+            newY < box.bottom && newY + frameHeight > box.top) {
+            window.location.replace(box.redirect)
+            return true;
+        }
+    }
+    return false;
+}
+
+// enemy position 
+const enemyX = 533; 
+const enemyY = 550; 
+
+// ---------- DIALOG SYSTEM (top-level) ----------
+// Move dialog state and helper out of draw() so input handlers can access them
+let isDialogActive = false;
+let dialogIndex = 0;
+
+const npcDialog = [
+    "Elycia- Hello...",
+    "Park Vendor- Welcome to the park!, how can I help?",
+    "Elycia- I've been up and down all day, by any chance have you seen",
+    "Elycia- anything unusual around here? Maybe someone looking lost or searching for something?",
+    "Park Vendor- Hmm, not that I can recall. The park has been pretty quiet today.",
+    "Elycia- uuugggghhhh... I was hoping to find some clues here.", 
+    "Park Vendor- wait... let me make a radio call...",
+    "*Radio call to other park staff*",
+    "Park Vendor- head straight up to the main gate, you might find someone there.",
+    "Elycia- Thank you so much for your help!"
+];
+
+// Helper function to check proximity to the NPC
+function isPlayerNearNPC() {
+    const dx = Math.abs(posX - enemyX);
+    const dy = Math.abs(posY - enemyY);
+    return dx < 50 && dy < 50;
+}
+
+// check if the click is within the enemy area
+function isClickInEnemy(x, y) {
+    const enemyScreenX = (enemyX - camera.x) * mapScaleFactor;
+    const enemyScreenY = (enemyY - camera.y) * mapScaleFactor;
+    const enemyWidth = frameWidth * enemyScaleFactor;
+    const enemyHeight = frameHeight * enemyScaleFactor;
+
+    return x >= enemyScreenX && x <= enemyScreenX + enemyWidth &&
+           y >= enemyScreenY && y <= enemyScreenY + enemyHeight;
+};
 
 
 // keydown events to update direction and movement
@@ -293,7 +386,6 @@ function checkAllImagesLoaded() {
 }
 
 // Wait for all images to load before starting
-spriteSheet.onload = checkAllImagesLoaded;
 mapImage.onload = checkAllImagesLoaded;
 enemyImage.onload = checkAllImagesLoaded;
 
