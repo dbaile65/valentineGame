@@ -99,7 +99,7 @@ const camera = {
 };
 
 // step size for character movement
-const stepSize = 5;
+const stepSize = 2;
 
 // collision boundaries (left, top, right, bottom) for each boundary
 const collisionBoxes = [
@@ -115,7 +115,8 @@ const collisionBoxes = [
 
 // Define enter boxes for area transitions
 const enterBoxes = [
-    {left: 32, top: 264, right: 66, bottom: 310, redirect: 'field.html'}  // exit park back to field
+    {left: 32, top: 264, right: 66, bottom: 310, redirect: 'field.html'},  // exit park back to field
+    {left: 574, top: 43, right: 640, bottom: 69, redirect: 'park2.html'}  // exit park back to field
 ];
 
 // check if the next position collides with any of the defined boundaries
@@ -153,8 +154,9 @@ let dialogIndex = 0;
 let currentNPC = null; // Track which NPC is being talked to ('enemy' or 'npc')
 
 const enemyDialog = [
-    "Visitor- Hey its you again!",
-    "Elycia- Oh hi, yes it's me again.",
+    "Visitor- Hey its you!",
+    "Visitor- You're that girl looking for her boyfriend, right?",
+    "Elycia- Oh hi, yes it's me.",
     "Visitor- Have you found anything new?",
     "Elycia- No, not yet. I'm still looking around.",
     "Visitor- Well, seems like you don't give up easily. Good luck!",
@@ -479,8 +481,4 @@ function stopSound(soundId) {
 
 function exitPage() {
     window.location.href = "http://localhost/valentineGame/exit.html";
-}
-
-function back(){
-    window.location.href = "http://localhost/valentineGame/field.html";
 }

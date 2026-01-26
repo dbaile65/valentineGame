@@ -88,7 +88,7 @@ const camera = {
 };
 
 // step size for character movement
-const stepSize = 1;
+const stepSize = 2;
 
 
 const nurseX = 180;  

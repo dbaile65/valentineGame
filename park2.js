@@ -4,7 +4,7 @@ const canvas = document.getElementById('image');
 const ctx = canvas.getContext('2d');
 const spriteSheet = new Image();
 const mapImage = new Image();
-mapImage.src = 'field.png';
+mapImage.src = 'second to last.png';
 const enemyImage = new Image();
 enemyImage.src = 'villagers/villager1.png';
 
@@ -48,9 +48,9 @@ const frameHeight = 64;
 const frameWidth = 64;
 const framesPerDirection = 4;
 // scale factors for map and character
-const mapScaleFactor = 2.5;    
-const characterScaleFactor = 1; 
-const enemyScaleFactor = 1; 
+const mapScaleFactor = 1;    
+const characterScaleFactor = 0.9; 
+const enemyScaleFactor = 0.9; 
 
 // directions to desired row in the sprite sheet
 const directions = {
@@ -63,14 +63,14 @@ const directions = {
 // initial direction and frame  
 let currentDirection = directions.DOWN;
 let currentFrame = 0; 
-let posX = 93; 
-let posY = 112; 
+let posX = 509; 
+let posY = 695; 
 let isMoving = false; 
 const frameRate = 5; 
 let frameCounter = 0;
 // map dimensions
-const mapWidth = 512;
-const mapHeight = 384;
+const mapWidth = 1200;
+const mapHeight = 900;
 // camera view dimensions 
 const cameraWidth = 800 / mapScaleFactor;
 const cameraHeight = 600 / mapScaleFactor;
@@ -83,14 +83,16 @@ const camera = {
 };
 
 // step size for character movement
-const stepSize = 1;
+const stepSize = 2;
 
 // collision boundaries (left, top, right, bottom) for each boundary
 const collisionBoxes = [
-    {left: 130, top: 100, right: 150, bottom: 110},                     // House 1
-    {left: 250, top: 100, right: 300, bottom: 110},                     // House 2
-    {left: 250, top: 190, right: 320, bottom: 210},                     // building
-    {left: 130, top: 220, right: 150, bottom: 240},                     // flower bed
+    {left: 61, top: 170, right: 130, bottom: 758}, // left wall
+    {left: 620, top: 166, right: 860, bottom: 400},      // top-middle yard
+    {left: 155, top: 226, right: 532, bottom: 444}, // right wall
+    {left: 1025, top: 161, right: 1132, bottom: 442}, // right yard
+    {left: 649, top: 566, right: 1048, bottom: 869}, //right bottom yard
+    {left: 245, top: 18, right: 839, bottom: 146}, // top forest
     {left: 0, top: 0, right: 25, bottom: mapHeight},                    // left hedge
     {left: mapWidth-110, top: 0, right: mapWidth, bottom: mapHeight},   // right hedge
     {left: 0, top: 0, right: mapWidth, bottom: 25},                     // top hedge
@@ -120,8 +122,8 @@ canvas.addEventListener("click", (e) => {
 // Define enter boxes for area transitions
 // corrected coordinates: ensure top < bottom and expand width for easier entry
 const enterBoxes = [
-    {left: 285, top: 210, right: 295, bottom: 215, redirect: 'towncenter.html'},                     // enter pokecenter
-    {left: 197, top: 30, right: 207, bottom: 35, redirect: 'park.html'}                              // enter park
+   {left: 495, top: 843, right: 597, bottom: 875, redirect: 'park.html'},  // exit park back to field
+   {left: 893, top: 67, right: 960, bottom: 91, redirect: 'final.html'} // proposal
 ];
 
 function checkEnter(newX, newY) {
@@ -240,10 +242,9 @@ function updatePosition() {
 }
 
 // enemy position 
-const enemyX = 100; 
-const enemyY = 220; 
-// building position 
-const buildingBox = {left: 250, top: 190, right: 320, bottom: 210}; 
+const enemyX = 500; 
+const enemyY = 400; 
+
 
 // ---------- DIALOG SYSTEM (top-level) ----------
 // Move dialog state and helper out of draw() so input handlers can access them
@@ -252,16 +253,12 @@ let dialogIndex = 0;
 
 const npcDialog = [
     "Villager- Hey there!",
-    "Villager- Nice day, huh?",
-    "Elycia- Its really lovely out today.",
-    "Elycia- I really need your help.",
-    "Villager- How can I help?",
-    "Elycia- I was supposed to meet my boyfriend here, but I can't", 
-    "get in contact with him nor find him anywhere.", "I think he forgot to charge his phone again!",
-    "Villager- huh... that's funny because I handsome man was just asking me about you.", "I think I saw him heading towards the Town center.",
-    "Villager- Check it out! They might have some info for you.", "It's the building with the green door.",
-    "Elycia- Thank you so much for your help!",
-    "Villager- Good luck on your journey!"
+    "villager- I already gave my Valentine to someone special.",
+    "villager- But I hope you find yours!",
+    "villager I'm just kidding, I already know who you're looking for.",
+    "villager- He's over by park event hall.",
+    "villager- Good luck!"
+   
 ];
 
 // Helper function to check proximity to the NPC
@@ -375,6 +372,9 @@ function checkAllImagesLoaded() {
     if (imagesLoaded === totalImages) {
         canvas.width = 800;
         canvas.height = 600;
+        // Center camera on player at startup
+        camera.x = Math.max(0, Math.min(posX - camera.width / 2, mapWidth - camera.width));
+        camera.y = Math.max(0, Math.min(posY - camera.height / 2, mapHeight - camera.height));
         animateSprite();
         console.log("All images loaded, game started!");
     }
@@ -414,8 +414,4 @@ function stopSound(soundId) {
     sound.pause();
     sound.currentTime = 0;
     isSoundPlaying = false;
-}
-
-function back() {
-    window.location.href = "http://localhost/valentineGame/character.html";
 }
