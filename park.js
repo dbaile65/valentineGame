@@ -5,7 +5,10 @@ const spriteSheet = new Image();
 const mapImage = new Image();
 mapImage.src = 'newPark.png';
 const enemyImage = new Image();
-enemyImage.src = 'villagers/villager4.png';
+enemyImage.src = 'villagers/villager3.png';
+
+const npcImage = new Image();
+npcImage.src = 'villagers/villager4.png';
 
 
 //helper function to find enter boxes
@@ -64,7 +67,7 @@ const framesPerDirection = 4;
 const mapScaleFactor = 1;    
 const characterScaleFactor = 0.9; 
 const enemyScaleFactor = 0.9; 
-
+const npcScaleFactor = 0.9;
 // directions to desired row in the sprite sheet
 const directions = {
     DOWN: 0,//row 0 in the sprite sheet
@@ -76,8 +79,8 @@ const directions = {
 // initial direction and frame  
 let currentDirection = directions.DOWN;
 let currentFrame = 0; 
-let posX = 93; 
-let posY = 112; 
+let posX = 100; 
+let posY = 260; 
 let isMoving = false; 
 const frameRate = 5; 
 let frameCounter = 0;
@@ -96,14 +99,14 @@ const camera = {
 };
 
 // step size for character movement
-const stepSize = 3;
+const stepSize = 5;
 
 // collision boundaries (left, top, right, bottom) for each boundary
 const collisionBoxes = [
-    {left: 130, top: 100, right: 150, bottom: 110},                     // barrier 1
-    {left: 250, top: 100, right: 300, bottom: 110},                     // barrier 2
-    {left: 250, top: 190, right: 320, bottom: 210},                     // barrier 3
-    {left: 130, top: 220, right: 150, bottom: 240},                     // barrier 4
+    {left: 60, top: 15, right: 543, bottom: 201},                       //Top left trees
+    {left: 151, top: 357, right: 532, bottom: 564},                     // middle left trees
+    {left: 700, top: 15, right: 1120, bottom: 243},                     // top right trees
+    {left: 700, top: 386, right: 1152, bottom: 555},                     // middle right trees
     {left: 0, top: 0, right: 25, bottom: mapHeight},                    // left boundary
     {left: mapWidth-110, top: 0, right: mapWidth, bottom: mapHeight},   // right boundary
     {left: 0, top: 0, right: mapWidth, bottom: 25},                     // top boundary
@@ -112,7 +115,7 @@ const collisionBoxes = [
 
 // Define enter boxes for area transitions
 const enterBoxes = [
-    {left: 197, top: 30, right: 207, bottom: 35, redirect: 'field.html'}  // exit park back to field
+    {left: 32, top: 264, right: 66, bottom: 310, redirect: 'field.html'}  // exit park back to field
 ];
 
 // check if the next position collides with any of the defined boundaries
@@ -138,32 +141,52 @@ function checkEnter(newX, newY) {
 }
 
 // enemy position 
-const enemyX = 533; 
-const enemyY = 550; 
+const enemyX = 672; 
+const enemyY = 270;  
+const npcX = 533;
+const npcY = 550;
 
 // ---------- DIALOG SYSTEM (top-level) ----------
 // Move dialog state and helper out of draw() so input handlers can access them
 let isDialogActive = false;
 let dialogIndex = 0;
+let currentNPC = null; // Track which NPC is being talked to ('enemy' or 'npc')
+
+const enemyDialog = [
+    "Visitor- Hey its you again!",
+    "Elycia- Oh hi, yes it's me again.",
+    "Visitor- Have you found anything new?",
+    "Elycia- No, not yet. I'm still looking around.",
+    "Visitor- Well, seems like you don't give up easily. Good luck!",
+    "Elycia- Thanks, I appreciate it!"
+];
 
 const npcDialog = [
     "Elycia- Hello...",
     "Park Vendor- Welcome to the park!, how can I help?",
     "Elycia- I've been up and down all day, by any chance have you seen",
-    "Elycia- anything unusual around here? Maybe someone looking lost or searching for something?",
+    "Elycia- anything unusual around here?",
+    "Elycia- Maybe someone looking lost or searching for something?",
     "Park Vendor- Hmm, not that I can recall. The park has been pretty quiet today.",
-    "Elycia- uuugggghhhh... I was hoping to find some clues here.", 
+    "Elycia- uuugggghhhh... I was hoping to find some clues here.",
     "Park Vendor- wait... let me make a radio call...",
     "*Radio call to other park staff*",
     "Park Vendor- head straight up to the main gate, you might find someone there.",
     "Elycia- Thank you so much for your help!"
 ];
 
-// Helper function to check proximity to the NPC
-function isPlayerNearNPC() {
+// Helper function to check proximity to the enemy
+function isPlayerNearEnemy() {
     const dx = Math.abs(posX - enemyX);
     const dy = Math.abs(posY - enemyY);
     return dx < 50 && dy < 50;
+}
+
+// Helper function to check proximity to the NPC
+function isPlayerNearNPC() {
+    const npcdx = Math.abs(posX - npcX);
+    const npcdy = Math.abs(posY - npcY);
+    return npcdx < 50 && npcdy < 50;
 }
 
 // check if the click is within the enemy area
@@ -181,13 +204,30 @@ function isClickInEnemy(x, y) {
 // keydown events to update direction and movement
 window.addEventListener('keydown', (event) => {
 
-    // Handle dialog first (E to start/advance dialog when near NPC)
+    // Handle dialog first (E to start/advance dialog when near NPC or Enemy)
     if (event.key === 'e' || event.key === 'E') {
-        if (isPlayerNearNPC()) {
+        if (isPlayerNearEnemy()) {
             if (!isDialogActive) {
                 isDialogActive = true;
                 dialogIndex = 0;
-            } else {
+                currentNPC = 'enemy';
+            } else if (currentNPC === 'enemy') {
+                // Advance dialog or close only when user presses E on last message
+                if (dialogIndex < enemyDialog.length - 1) {
+                    dialogIndex = dialogIndex + 1;
+                } else {
+                    // user pressed E while on last dialog line -> close
+                    isDialogActive = false;
+                    dialogIndex = 0;
+                    currentNPC = null;
+                }
+            }
+        } else if (isPlayerNearNPC()) {
+            if (!isDialogActive) {
+                isDialogActive = true;
+                dialogIndex = 0;
+                currentNPC = 'npc';
+            } else if (currentNPC === 'npc') {
                 // Advance dialog or close only when user presses E on last message
                 if (dialogIndex < npcDialog.length - 1) {
                     dialogIndex = dialogIndex + 1;
@@ -195,6 +235,7 @@ window.addEventListener('keydown', (event) => {
                     // user pressed E while on last dialog line -> close
                     isDialogActive = false;
                     dialogIndex = 0;
+                    currentNPC = null;
                 }
             }
         }
@@ -332,6 +373,18 @@ function draw() {
         frameHeight * enemyScaleFactor
     );
 
+        // draw the npc image at a fixed position 
+    const npcScreenX = (npcX - camera.x) * mapScaleFactor;
+    const npcScreenY = (npcY - camera.y) * mapScaleFactor;
+    ctx.drawImage(
+        npcImage,
+        0, 0, frameWidth, frameHeight,
+        npcScreenX,
+        npcScreenY,
+        frameWidth * npcScaleFactor,
+        frameHeight * npcScaleFactor
+    );
+
     // ---------- DRAW DIALOG ----------
 if (isDialogActive) {
     const boxHeight = 120;
@@ -346,11 +399,19 @@ if (isDialogActive) {
     ctx.fillStyle = 'black';
     ctx.font = '18px Arial';
 
-    ctx.fillText(
-        npcDialog[dialogIndex],
-        80,
-        canvas.height - boxHeight + 30
-    );
+    if (currentNPC === 'enemy') {
+        ctx.fillText(
+            enemyDialog[dialogIndex],
+            80,
+            canvas.height - boxHeight + 30
+        );
+    } else if (currentNPC === 'npc') {
+        ctx.fillText(
+            npcDialog[dialogIndex],
+            80,
+            canvas.height - boxHeight + 30
+        );
+    }
 
     ctx.font = '14px Arial';
     ctx.fillText(
@@ -388,6 +449,7 @@ function checkAllImagesLoaded() {
 // Wait for all images to load before starting
 mapImage.onload = checkAllImagesLoaded;
 enemyImage.onload = checkAllImagesLoaded;
+npcImage.onload = checkAllImagesLoaded;
 
 // Handle image load errors
 spriteSheet.onerror = () => console.error("Failed to load character sprite");
