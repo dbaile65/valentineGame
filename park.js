@@ -480,5 +480,5 @@ function stopSound(soundId) {
 }
 
 function exitPage() {
-    window.location.href = "http://localhost/valentineGame/exit.html";
+    window.location.href = "exit.html";
 }

@@ -48,12 +48,12 @@ function nextCharacter() {
 
 // Go back to intro screen
 function back() {
-    window.location.href = "http://localhost/valentineGame/index.html";
+    window.location.href = "index.html";
 }
 
 // Save selected character and continue to game
 function next() {
     const selectedCharacter = characters[currentIndex];
     localStorage.setItem('userChar', JSON.stringify(selectedCharacter)); // Save single character
-    window.location.href = "http://localhost/valentineGame/field.html";
+    window.location.href = "field.html";
 }

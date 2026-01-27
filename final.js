@@ -436,11 +436,11 @@ mapImage.onerror = () => console.error("Failed to load map image");
 enemyImage.onerror = () => console.error("Failed to load enemy image");
 
 function exitPage() {
-    window.location.href = "http://localhost/valentineGame/exit.html";
+    window.location.href = "exit.html";
 }
 
 function showInvitationScreen() {
-    window.location.href = "http://localhost/valentineGame/invitation.html";
+    window.location.href = "invitation.html";
 }
 
 function handleDialogResponse(response) {

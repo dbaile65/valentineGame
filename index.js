@@ -3,12 +3,12 @@ let selectedCharacter; // Just one character, not a team
 
 // Navigate to character selection screen
 function generateCharc() {
-    window.location.href = "http://localhost/valentineGame/character.html";
+    window.location.href = "character.html";
 }
 
 // Displays the instructions page
 function instructions() {
-    window.location.href = "http://localhost/valentineGame/instructions.html";
+    window.location.href = "instructions.html";
 }
 
 // Plays the sound when the button is pressed (Sound ON/OFF Button)
@@ -61,6 +61,6 @@ if (document.getElementById('terminateGameButton')) {
 }
 function terminateGameButton() {
     resetGameData(function() {
-        window.location.href = "http://localhost/valentineGame/index.html";
+        window.location.href = "index.html";
     });
 }

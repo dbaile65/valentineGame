@@ -391,7 +391,7 @@ mapImage.onerror = () => console.error("Failed to load map image");
 enemyImage.onerror = () => console.error("Failed to load enemy image");
 
 function exitPage() {
-    window.location.href = "http://localhost/valentineGame/exit.html";
+    window.location.href = "exit.html";
 }
 
 // Plays the sound when the button is pressed (Sound ON/OFF Button)
@@ -417,5 +417,5 @@ function stopSound(soundId) {
 }
 
 function back() {
-    window.location.href = "http://localhost/valentineGame/character.html";
+    window.location.href = "character.html";
 }

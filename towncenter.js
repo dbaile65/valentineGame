@@ -353,7 +353,7 @@ function toggleSound() {
 }
 
 function back() {
-    window.location.href = "http://localhost/valentineGame/field.html";
+    window.location.href = "field.html";
 }
 
 // ---------- DIALOG / NPC ----------

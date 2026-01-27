@@ -9,5 +9,5 @@ function playSound() {
 }
 
 function back() {
-  window.location.href = "http://localhost/valentineGame/index.html";
+  window.location.href = "index.html";
 }
