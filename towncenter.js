@@ -88,7 +88,7 @@ const camera = {
 };
 
 // step size for character movement
-const stepSize = 2;
+const stepSize = 1;
 
 
 const nurseX = 180;  
@@ -368,7 +368,7 @@ const npcDialog = [
     "Elycia- It's almost Valentine's Day and I can't find my     boyfriend.",
     "Elycia- I was told that he came here looking for me.",
     "Villager- Ah, I see.",
-    "Villager- I man came by here earlier looking for a place to charge his phone, ",
+    "Villager- A man came by here earlier looking for a place to charge his phone, ",
     "Villager- but after it was fully charged he couldn't find   signal anywhere.",
     "Villager- If I remember correctly, he mentioned something   about going to the park next.",
     "Elycia- Oh no! That must be him.", 

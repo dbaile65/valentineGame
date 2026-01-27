@@ -258,7 +258,7 @@ const npcDialog = [
     "Villager- How can I help?",
     "Elycia- I was supposed to meet my boyfriend here, but I can't", 
     "get in contact with him nor find him anywhere.", "I think he forgot to charge his phone again!",
-    "Villager- huh... that's funny because I handsome man was just asking me about you.", "I think I saw him heading towards the Town center.",
+    "Villager- huh... that's funny because a handsome man was just asking me about you.", "I think I saw him heading towards the Town center.",
     "Villager- Check it out! They might have some info for you.", "It's the building with the green door.",
     "Elycia- Thank you so much for your help!",
     "Villager- Good luck on your journey!"
