@@ -61,6 +61,6 @@ if (document.getElementById('terminateGameButton')) {
 }
 function terminateGameButton() {
     resetGameData(function() {
-        window.location.href = "http://localhost/valentineGame/Intro.html";
+        window.location.href = "http://localhost/valentineGame/index.html";
     });
 }

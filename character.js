@@ -48,7 +48,7 @@ function nextCharacter() {
 
 // Go back to intro screen
 function back() {
-    window.location.href = "http://localhost/valentineGame/Intro.html";
+    window.location.href = "http://localhost/valentineGame/index.html";
 }
 
 // Save selected character and continue to game
