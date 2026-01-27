@@ -5,11 +5,17 @@
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="final.css">
     <script src="final.js" defer></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,1,0&icon_names=favorite" />    <button class="exit-button" onclick="exitPage()">Exit</button>
+
 </head>
 <body>
-    <button class="exit-button" onclick="exitPage()">Exit</button>
+    <span id="heart-icon" class="material-symbols-outlined" onclick="showInvitationScreen()">favorite</span>
     <div class="camera">
         <canvas id="image" width="800" height="600"></canvas>
+        <div id="dialog-buttons" style="display: none; position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); z-index: 20;">
+            <button id="yes-button" class="dialog-btn yes-btn" onclick="handleDialogResponse('yes')">Yes</button>
+            <button id="no-button" class="dialog-btn no-btn" onclick="handleDialogResponse('no')">No</button>
+        </div>
     </div>
 
 	<div class="sound-box">

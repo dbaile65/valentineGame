@@ -6,7 +6,9 @@ const spriteSheet = new Image();
 const mapImage = new Image();
 mapImage.src = 'finalStage.png';
 const enemyImage = new Image();
-enemyImage.src = 'villagers/villager1.png';
+enemyImage.src = 'me.png';
+
+
 
 // Load the selected character from localStorage
 let selectedCharacter = null;
@@ -33,7 +35,10 @@ function updateSpritePadding() {
     if (spriteSheet.src.includes('girl1.png')){
         SPRITE_PADDING = 9;
         SPRITE_OFFSET = 0;
-    } else{
+    } else if(spriteSheet.src.includes('me.png')){
+        SPRITE_PADDING = 6;
+        SPRITE_OFFSET = 0;
+    }else{
         SPRITE_PADDING = 4;
         SPRITE_OFFSET = 0;
     }
@@ -44,13 +49,17 @@ spriteSheet.onload = updateSpritePadding;
 // Also update immediately in case it's cached
 updateSpritePadding();
 
-const frameHeight = 64; 
-const frameWidth = 64;
+// Player sprite dimensions
+const playerFrameHeight = 64; 
+const playerFrameWidth = 64;
+// Enemy sprite dimensions
+const enemyFrameHeight = 50;
+const enemyFrameWidth = 32;
 const framesPerDirection = 4;
 // scale factors for map and character
 const mapScaleFactor = 1;    
 const characterScaleFactor = 0.9; 
-const enemyScaleFactor = 0.9; 
+const enemyScaleFactor = 1.1; 
 
 // directions to desired row in the sprite sheet
 const directions = {
@@ -62,7 +71,9 @@ const directions = {
 
 // initial direction and frame  
 let currentDirection = directions.DOWN;
-let currentFrame = 0; 
+let currentFrame = 0;
+let enemyFrame = 0;
+let enemyDirection = directions.DOWN;
 let posX = 460; 
 let posY = 750; 
 let isMoving = false; 
@@ -99,8 +110,8 @@ const collisionBoxes = [
 // check if the next position collides with any of the defined boundaries
 function checkCollision(newX, newY) {
     for (let box of collisionBoxes) {
-        if (newX < box.right && newX + frameWidth > box.left &&
-            newY < box.bottom && newY + frameHeight > box.top) {
+        if (newX < box.right && newX + playerFrameWidth > box.left &&
+            newY < box.bottom && newY + playerFrameHeight > box.top) {
             return true;
         }
     }
@@ -125,8 +136,8 @@ const enterBoxes = [
 
 function checkEnter(newX, newY) {
     for (let box of enterBoxes) {
-        if (newX < box.right && newX + frameWidth > box.left &&
-            newY < box.bottom && newY + frameHeight > box.top) {
+        if (newX < box.right && newX + playerFrameWidth > box.left &&
+            newY < box.bottom && newY + playerFrameHeight > box.top) {
             window.location.replace(box.redirect)
             return true;
         }
@@ -148,9 +159,16 @@ window.addEventListener('keydown', (event) => {
                 if (dialogIndex < npcDialog.length - 1) {
                     dialogIndex = dialogIndex + 1;
                 } else {
-                    // user pressed E while on last dialog line -> close
-                    isDialogActive = false;
-                    dialogIndex = 0;
+                    // Check if this is the Valentine question (last line of initial dialog)
+                    if (isWaitingForResponse === false && dialogIndex === npcDialog.length - 1 && npcDialog[dialogIndex].includes("Valentine this year?")) {
+                        isWaitingForResponse = true; // Now waiting for yes/no
+                    } else {
+                        // user pressed E while on last dialog line -> close
+                        isDialogActive = false;
+                        dialogIndex = 0;
+                        isWaitingForResponse = false;
+                        document.getElementById('dialog-buttons').style.display = 'none';
+                    }
                 }
             }
         }
@@ -211,13 +229,13 @@ function updatePosition() {
                 newY = Math.max(0, posY - stepSize);
                 break;
             case directions.DOWN:
-                newY = Math.min(mapHeight - frameHeight, posY + stepSize);
+                newY = Math.min(mapHeight - playerFrameHeight, posY + stepSize);
                 break;
             case directions.LEFT:
                 newX = Math.max(0, posX - stepSize);
                 break;
             case directions.RIGHT:
-                newX = Math.min(mapWidth - frameWidth, posX + stepSize);
+                newX = Math.min(mapWidth - playerFrameWidth, posX + stepSize);
                 break;
         }
         // check for collisions and update position if no collision is detected
@@ -247,15 +265,32 @@ const enemyY = 143;
 // Move dialog state and helper out of draw() so input handlers can access them
 let isDialogActive = false;
 let dialogIndex = 0;
+let isWaitingForResponse = false; // Flag to track if we're waiting for yes/no answer
 
 const npcDialog = [
-    "Villager- Hey there!",
-    "villager- I already gave my Valentine to someone special.",
-    "villager- But I hope you find yours!",
-    "villager I'm just kidding, I already know who you're looking for.",
-    "villager- He's over by park event hall.",
-    "villager- Good luck!"
-   
+    "Dan- Hey!",
+    "Elycia- Hi...",
+    "Dan- I know. I know. I should have charged my phone earlier.",
+    "Elycia- It's okay. I was worried about you.",
+    "Dan- Thank you for caring and being so understanding.", "I got caught up and didn't check my phone again.",
+    "Elycia- I understand, but please try to keep your phone charged next time.",
+    "Dan- I will, I promise.",
+    "Elycia- Of course. Just glad you're safe.",
+    "Dan- Im glad you found me, because I brought you here to ask you something important.",
+    "I was thinking to myself and I was wondering ","how I could make this year's Valentine's Day special for you.",
+    "I know you enjoyed your proposal last year, ","so I wanted to do something memorable again.",
+    "Dan- So, Elycia, will you be my Valentine this year?"
+];
+
+const yesResponse = [
+    "Elycia- Of course! I would love to!",
+    "Dan- I'm so happy to hear that!",
+    "click on the heart icon to know where we are going!"
+];
+
+const noResponse = [
+    "Dan- hahaha you're funny, anyways...",
+    "click on the heart icon to know where we are going!"
 ];
 
 // Helper function to check proximity to the NPC
@@ -269,8 +304,8 @@ function isPlayerNearNPC() {
 function isClickInEnemy(x, y) {
     const enemyScreenX = (enemyX - camera.x) * mapScaleFactor;
     const enemyScreenY = (enemyY - camera.y) * mapScaleFactor;
-    const enemyWidth = frameWidth * enemyScaleFactor;
-    const enemyHeight = frameHeight * enemyScaleFactor;
+    const enemyWidth = enemyFrameWidth * enemyScaleFactor;
+    const enemyHeight = enemyFrameHeight * enemyScaleFactor;
 
     return x >= enemyScreenX && x <= enemyScreenX + enemyWidth &&
            y >= enemyScreenY && y <= enemyScreenY + enemyHeight;
@@ -292,34 +327,38 @@ function draw() {
     // draw the character sprite
    const sourceX =
     SPRITE_OFFSET +
-    currentFrame * (frameWidth + SPRITE_PADDING);
+    currentFrame * (playerFrameWidth + SPRITE_PADDING);
 
 	const sourceY =
     SPRITE_OFFSET +
-    currentDirection * (frameHeight + SPRITE_PADDING);
+    currentDirection * (playerFrameHeight + SPRITE_PADDING);
 
 	ctx.drawImage(
     spriteSheet,
     sourceX,
     sourceY,
-    frameWidth,
-    frameHeight,
+    playerFrameWidth,
+    playerFrameHeight,
     (posX - camera.x) * mapScaleFactor,
     (posY - camera.y) * mapScaleFactor,
-    frameWidth * characterScaleFactor,
-    frameHeight * characterScaleFactor
+    playerFrameWidth * characterScaleFactor,
+    playerFrameHeight * characterScaleFactor
 );
 
     // draw the enemy image at a fixed position 
     const enemyScreenX = (enemyX - camera.x) * mapScaleFactor;
     const enemyScreenY = (enemyY - camera.y) * mapScaleFactor;
+    
+    const enemySourceX = SPRITE_OFFSET + enemyFrame * (enemyFrameWidth + SPRITE_PADDING);
+    const enemySourceY = SPRITE_OFFSET + enemyDirection * (enemyFrameHeight + SPRITE_PADDING);
+    
     ctx.drawImage(
         enemyImage,
-        0, 0, frameWidth, frameHeight,
+        enemySourceX, enemySourceY, enemyFrameWidth, enemyFrameHeight,
         enemyScreenX,
         enemyScreenY,
-        frameWidth * enemyScaleFactor,
-        frameHeight * enemyScaleFactor
+        enemyFrameWidth * enemyScaleFactor,
+        enemyFrameHeight * enemyScaleFactor
     );
 
     // ---------- DRAW DIALOG ----------
@@ -327,11 +366,11 @@ if (isDialogActive) {
     const boxHeight = 120;
 
     ctx.fillStyle = 'white';
-    ctx.fillRect(50, canvas.height - boxHeight - 20, canvas.width - 100, boxHeight);
+    ctx.fillRect(50, canvas.height - boxHeight - 20, canvas.width - 65, boxHeight);
 
     ctx.strokeStyle = 'black';
     ctx.lineWidth = 4;
-    ctx.strokeRect(50, canvas.height - boxHeight - 20, canvas.width - 100, boxHeight);
+    ctx.strokeRect(50, canvas.height - boxHeight - 20, canvas.width - 65, boxHeight);
 
     ctx.fillStyle = 'black';
     ctx.font = '18px Arial';
@@ -343,11 +382,20 @@ if (isDialogActive) {
     );
 
     ctx.font = '14px Arial';
-    ctx.fillText(
-        "Press E to continue",
-        canvas.width - 200,
-        canvas.height - 40
-    );
+    
+    // Show yes/no buttons only when waiting for response
+    if (isWaitingForResponse && dialogIndex === npcDialog.length - 1) {
+        document.getElementById('dialog-buttons').style.display = 'flex';
+        document.getElementById('dialog-buttons').style.justifyContent = 'center';
+        document.getElementById('dialog-buttons').style.gap = '10px';
+    } else {
+        document.getElementById('dialog-buttons').style.display = 'none';
+        ctx.fillText(
+            "Press E to continue",
+            canvas.width - 200,
+            canvas.height - 40
+        );
+    }
 }
 
 }
@@ -389,6 +437,25 @@ enemyImage.onerror = () => console.error("Failed to load enemy image");
 
 function exitPage() {
     window.location.href = "http://localhost/valentineGame/exit.html";
+}
+
+function showInvitationScreen() {
+    window.location.href = "http://localhost/valentineGame/invitation.html";
+}
+
+function handleDialogResponse(response) {
+    let currentDialog;
+    if (response === 'yes') {
+        currentDialog = yesResponse;
+    } else {
+        currentDialog = noResponse;
+    }
+    
+    isWaitingForResponse = false; // No longer waiting for response
+    isDialogActive = true;
+    dialogIndex = 0;
+    npcDialog.splice(0, npcDialog.length, ...currentDialog);
+    document.getElementById('dialog-buttons').style.display = 'none';
 }
 
 // Plays the sound when the button is pressed (Sound ON/OFF Button)

@@ -89,3 +89,51 @@ body {
     cursor: pointer;
     font-size: 15px;
 }
+
+.material-symbols-outlined {
+    font-size: 48px;
+    color: red;
+    position: absolute;
+    top: 100px;
+    right: 340px;
+}
+
+.material-symbols-outlined:hover,
+.material-symbols-outlined:focus {
+    cursor: pointer;
+}
+.material-symbols-outlined:active{
+    transform: scale(0.8)
+}
+
+.dialog-btn {
+    
+    padding: 10px 30px;
+    margin: 0 10px;
+    font-size: 16px;
+    border: 2px solid black;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.2s;
+}
+
+.yes-btn {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.yes-btn:hover {
+    background-color: #45a049;
+    transform: scale(1.05);
+}
+
+.no-btn {
+    background-color: #f44336;
+    color: white;
+}
+
+.no-btn:hover {
+    background-color: #da190b;
+    transform: scale(1.05);
+}
